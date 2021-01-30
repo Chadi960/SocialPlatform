@@ -10,8 +10,8 @@ using WebAPI.Data;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(PersonContext))]
-    [Migration("20210130112730_InitialCreate4")]
-    partial class InitialCreate4
+    [Migration("20210130114834_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -61,35 +61,6 @@ namespace WebAPI.Migrations
                     b.HasKey("AddressId");
 
                     b.ToTable("Addresses");
-                });
-
-            modelBuilder.Entity("WebAPI.Models.Comment", b =>
-                {
-                    b.Property<int>("CommentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<int?>("PersonId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("TimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("CommentId");
-
-                    b.HasIndex("PersonId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("WebAPI.Models.ContactInfo", b =>
@@ -165,34 +136,6 @@ namespace WebAPI.Migrations
                     b.ToTable("Persons");
                 });
 
-            modelBuilder.Entity("WebAPI.Models.Post", b =>
-                {
-                    b.Property<int>("PostId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("PersonId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("TimeCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("varchar(300)");
-
-                    b.HasKey("PostId");
-
-                    b.HasIndex("PersonId");
-
-                    b.ToTable("Posts");
-                });
-
             modelBuilder.Entity("AddressPerson", b =>
                 {
                     b.HasOne("WebAPI.Models.Address", null)
@@ -206,21 +149,6 @@ namespace WebAPI.Migrations
                         .HasForeignKey("PersonsPersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WebAPI.Models.Comment", b =>
-                {
-                    b.HasOne("WebAPI.Models.Person", "Person")
-                        .WithMany("Comments")
-                        .HasForeignKey("PersonId");
-
-                    b.HasOne("WebAPI.Models.Post", "Post")
-                        .WithMany("Comments")
-                        .HasForeignKey("PostId");
-
-                    b.Navigation("Person");
-
-                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("WebAPI.Models.ContactInfo", b =>
@@ -245,29 +173,11 @@ namespace WebAPI.Migrations
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("WebAPI.Models.Post", b =>
-                {
-                    b.HasOne("WebAPI.Models.Person", "Person")
-                        .WithMany("Posts")
-                        .HasForeignKey("PersonId");
-
-                    b.Navigation("Person");
-                });
-
             modelBuilder.Entity("WebAPI.Models.Person", b =>
                 {
-                    b.Navigation("Comments");
-
                     b.Navigation("ContactInfo");
 
                     b.Navigation("Gender");
-
-                    b.Navigation("Posts");
-                });
-
-            modelBuilder.Entity("WebAPI.Models.Post", b =>
-                {
-                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

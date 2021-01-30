@@ -34,6 +34,7 @@ namespace WebAPI
             services.AddDbContext<PersonContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            //Provides helpful error information in the development environment.
             services.AddDatabaseDeveloperPageExceptionFilter();
 
         }

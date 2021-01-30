@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Data;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(PersonContext))]
-    partial class PersonContextModelSnapshot : ModelSnapshot
+    [Migration("20210130122156_PostAndComment")]
+    partial class PostAndComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,22 +23,22 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("AddressPerson", b =>
                 {
-                    b.Property<int>("AddressesAddressID")
+                    b.Property<int>("AddressesAddressId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PersonsPersonID")
+                    b.Property<int>("PersonsPersonId")
                         .HasColumnType("int");
 
-                    b.HasKey("AddressesAddressID", "PersonsPersonID");
+                    b.HasKey("AddressesAddressId", "PersonsPersonId");
 
-                    b.HasIndex("PersonsPersonID");
+                    b.HasIndex("PersonsPersonId");
 
                     b.ToTable("AddressPerson");
                 });
 
             modelBuilder.Entity("WebAPI.Models.Address", b =>
                 {
-                    b.Property<int>("AddressID")
+                    b.Property<int>("AddressId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -56,14 +58,14 @@ namespace WebAPI.Migrations
                     b.Property<string>("Zip")
                         .HasColumnType("varchar(5)");
 
-                    b.HasKey("AddressID");
+                    b.HasKey("AddressId");
 
                     b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("WebAPI.Models.Comment", b =>
                 {
-                    b.Property<int>("CommentID")
+                    b.Property<int>("CommentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -72,29 +74,27 @@ namespace WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("PersonFK")
+                    b.Property<int?>("PersonId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PostFK")
+                    b.Property<int?>("PostId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("TimeCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
-                    b.HasKey("CommentID");
+                    b.HasKey("CommentId");
 
-                    b.HasIndex("PersonFK");
+                    b.HasIndex("PersonId");
 
-                    b.HasIndex("PostFK");
+                    b.HasIndex("PostId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("WebAPI.Models.ContactInfo", b =>
                 {
-                    b.Property<int>("ContactInfoID")
+                    b.Property<int>("ContactInfoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -103,41 +103,40 @@ namespace WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(320)");
 
-                    b.Property<int>("PersonFK")
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("varchar(15)");
 
-                    b.HasKey("ContactInfoID");
+                    b.HasKey("ContactInfoId");
 
-                    b.HasIndex("PersonFK")
+                    b.HasIndex("PersonId")
                         .IsUnique();
 
                     b.ToTable("ContactInfos");
                 });
 
-            modelBuilder.Entity("WebAPI.Models.Genders", b =>
+            modelBuilder.Entity("WebAPI.Models.Gender", b =>
                 {
-                    b.Property<int>("GendersID")
+                    b.Property<string>("GenderID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("nvarchar(1)");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(1)")
-                        .HasDefaultValue("F");
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
 
-                    b.HasKey("GendersID");
+                    b.HasKey("GenderID");
+
+                    b.HasIndex("PersonId")
+                        .IsUnique();
 
                     b.ToTable("Genders");
                 });
 
             modelBuilder.Entity("WebAPI.Models.Person", b =>
                 {
-                    b.Property<int>("PersonID")
+                    b.Property<int>("PersonId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -148,9 +147,6 @@ namespace WebAPI.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("varchar(35)");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -164,16 +160,14 @@ namespace WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(40)");
 
-                    b.HasKey("PersonID");
-
-                    b.HasIndex("Gender");
+                    b.HasKey("PersonId");
 
                     b.ToTable("Persons");
                 });
 
             modelBuilder.Entity("WebAPI.Models.Post", b =>
                 {
-                    b.Property<int>("PostID")
+                    b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -182,36 +176,34 @@ namespace WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PersonFK")
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("TimeCreated")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("varchar(300)");
 
-                    b.HasKey("PostID");
+                    b.HasKey("PostId");
 
-                    b.HasIndex("PersonFK");
+                    b.HasIndex("PersonId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Post");
                 });
 
             modelBuilder.Entity("AddressPerson", b =>
                 {
                     b.HasOne("WebAPI.Models.Address", null)
                         .WithMany()
-                        .HasForeignKey("AddressesAddressID")
+                        .HasForeignKey("AddressesAddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebAPI.Models.Person", null)
                         .WithMany()
-                        .HasForeignKey("PersonsPersonID")
+                        .HasForeignKey("PersonsPersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -220,11 +212,11 @@ namespace WebAPI.Migrations
                 {
                     b.HasOne("WebAPI.Models.Person", "Person")
                         .WithMany("Comments")
-                        .HasForeignKey("PersonFK");
+                        .HasForeignKey("PersonId");
 
                     b.HasOne("WebAPI.Models.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostFK");
+                        .HasForeignKey("PostId");
 
                     b.Navigation("Person");
 
@@ -235,29 +227,29 @@ namespace WebAPI.Migrations
                 {
                     b.HasOne("WebAPI.Models.Person", "Person")
                         .WithOne("ContactInfo")
-                        .HasForeignKey("WebAPI.Models.ContactInfo", "PersonFK")
+                        .HasForeignKey("WebAPI.Models.ContactInfo", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("WebAPI.Models.Person", b =>
+            modelBuilder.Entity("WebAPI.Models.Gender", b =>
                 {
-                    b.HasOne("WebAPI.Models.Genders", "GenderFK")
-                        .WithMany()
-                        .HasForeignKey("Gender")
+                    b.HasOne("WebAPI.Models.Person", "Person")
+                        .WithOne("Gender")
+                        .HasForeignKey("WebAPI.Models.Gender", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("GenderFK");
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("WebAPI.Models.Post", b =>
                 {
                     b.HasOne("WebAPI.Models.Person", "Person")
                         .WithMany("Posts")
-                        .HasForeignKey("PersonFK")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -269,6 +261,8 @@ namespace WebAPI.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("ContactInfo");
+
+                    b.Navigation("Gender");
 
                     b.Navigation("Posts");
                 });

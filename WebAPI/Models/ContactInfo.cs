@@ -9,13 +9,14 @@ namespace WebAPI.Models
 {
     public class ContactInfo
     {
-        public int ContactInfoId { get; set; }
+        public int ContactInfoID { get; set; }
         [Column(TypeName = "varchar(15)")]
         public string PhoneNumber { get; set; }
         [Required, Column(TypeName = "varchar(320)")]
         public string Email { get; set; }
 
-        public int PersonId { get; set; }
+        [ForeignKey("Person")]
+        public int PersonFK { get; set; }
         public Person Person { get; set; }
     }
 }

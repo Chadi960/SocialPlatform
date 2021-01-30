@@ -9,14 +9,16 @@ namespace WebAPI.Models
 {
     public class Comment
     {
-        public int CommentId { get; set; }
+        public int CommentID { get; set; }
         [Required, Column(TypeName = "varchar(50)")]
         public string Content { get; set; }
         public DateTime TimeCreated { get; set; }
-        
-        public int? PostId { get; set; }
+
+        [ForeignKey("Post")]
+        public int? PostFK { get; set; }
         public Post Post { get; set; }
-        public int? PersonId { get; set; }
+        [ForeignKey("Person")]
+        public int? PersonFK { get; set; }
         public Person Person { get; set; }
     }
 }

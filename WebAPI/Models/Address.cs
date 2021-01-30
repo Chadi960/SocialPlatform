@@ -8,7 +8,7 @@ namespace WebAPI.Models
 {
     public class Address
     {
-        public int AddressId { get; set; }
+        public int AddressID { get; set; }
         [Column(TypeName = "varchar(50)")]
         public string Country { get; set; }
         [Column(TypeName = "varchar(50)")]
