@@ -16,7 +16,7 @@ namespace WebAPI.Models
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         [Required, Column(TypeName = "varchar(40)")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
         [Required]
         public string Password { get; set; }
 

@@ -24,26 +24,23 @@ namespace WebAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            //Auto-generating value for TimeCreated each time a Post as been added
             modelBuilder.Entity<Post>()
                 .Property(p => p.TimeCreated)
                 .HasDefaultValueSql("getdate()");
-
-            modelBuilder.Entity<Comment>()
+               
+            //Auto-generating value for TimeCreated each time a Comment as been added
+               modelBuilder.Entity<Comment>()
                 .Property(c => c.TimeCreated)
                 .HasDefaultValueSql("getdate()");
 
-
-
-
-
+            //Default value for Gender in case none is specified
             modelBuilder.Entity<Genders>()
                 .Property(g => g.Gender)
-                .HasDefaultValue("M");
+                .HasDefaultValue("U"); //U for unkown gender
 
-            modelBuilder.Entity<Genders>()
-                .Property(g => g.Gender)
-                .HasDefaultValue("F");
+            modelBuilder.Entity<Person>()
+                .HasIndex(p => new { p.Username, p.Password });
         }
 
     }
