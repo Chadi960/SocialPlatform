@@ -1,4 +1,4 @@
 # Social Platform
 
-Test demo for a RESTful API in ASP.NET Core for a login a registration system.
-A quick and easy way to implemente JWT authentication. It's a prototype, I know it's not the best way to do it.
+Ongoing test demo for a RESTful API in ASP.NET Core. It's a login and registration system where users can post "Posts", comment and like other posts.
+Currently shows a quick and easy way to implemente JWT authentication. It's a prototype - not the best way to do it.
